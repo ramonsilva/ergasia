@@ -1,23 +1,39 @@
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import {
+  StackNavigator,
+} from 'react-navigation';
 
-export default class App extends React.Component {
+import { Platform } from 'react-native'
+
+import TaskList from './screens/TaskList';
+import CreateTask from './screens/CreateTask';
+
+export default App = StackNavigator(
+  {
+    TaskList: {
+      screen: TaskList,
+      headerMode: 'none',
+    },
+    CreateTask: { screen: CreateTask },
+  },
+  {
+    navigationOptions: {
+      headerStyle: {
+        height: Platform.OS === 'ios' ? 64 : 71,
+        backgroundColor: '#FFC107',
+        borderBottomColor: 'rgba(0, 0, 0, 0.1)',
+        paddingTop: Platform.OS === 'ios' ? 20 : 25,
+      }
+    }
+  }
+);
+
+class Header extends React.Component {
   render() {
     return (
-      <View style={styles.container}>
-        <Text>Preto is skeptical yeap</Text>
-        <Text>Changes you make will automatically reload. This is awesome!</Text>
-        <Text>Shake your phone to open the developer menu.</Text>
+      <View>
+        Bazinga!
       </View>
     );
   }
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
