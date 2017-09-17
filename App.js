@@ -17,7 +17,7 @@ export default App = StackNavigator(
     CreateTask: { screen: CreateTask },
   },
   {
-    initialRouteName: 'CreateTask',
+    //initialRouteName: 'CreateTask',
     navigationOptions: {
       headerStyle: {
         height: Platform.OS === 'ios' ? 64 : 79,
