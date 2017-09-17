@@ -7,35 +7,69 @@ import {
   Text,
   FlatList,
   View,
+  TouchableOpacity,
 } from 'react-native';
 import moment from 'moment';
 
 import ActionButton from 'react-native-action-button';
+import Swipeable from 'react-native-swipeable';
 
-const dataList = () =>
-  [
-    {key: 'Preto', 
-      previous: moment(Date.now()).calendar(),
-      next: moment(Date.now()).calendar()
-    },
-    {key: 'Caio'},
-    {key: 'Lucas'},
-    {key: 'Gabriel'},
-    {key: 'Ramon'},
-  ];
-const renderItemList = ({item}) => (
-  <View style={styles.item}>
-    <Text style={styles.itemName}>{item.key}</Text>
-    <View style={styles.datesItem}>
-      <Text style={styles.previousDate}>{item.previous}</Text>
-      <Text style={styles.nextDate}>{item.next}</Text>
-    </View>
-  </View>)
 
 export default class TaskList extends React.Component {
   static navigationOptions = {
-    title: 'Ergasia X',
+    title: 'Ergasia',
   };
+
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      swipeable: null,
+    };
+  }
+
+  dataList = () => {
+    this.state.data = this.state.data || [
+      {key: 'Limpar a pia do banheiro',
+        previous: moment(Date.now()).calendar(),
+        next: moment(Date.now()).calendar()
+      },
+      {key: 'Limpar o armario da cozinha'},
+      {key: 'Lucas'},
+      {key: 'Gabriel'},
+      {key: 'Ramon'},
+    ];
+
+    console.log(this.state.data);
+    return this.state.data;
+  }
+
+  renderItemList = ({item}, navigate) => {
+    return (
+     <Swipeable
+      onLeftActionRelease={() => {
+        this.state.data.splice(2, 1);
+        this.setState({data: this.state.data})
+      }}
+      leftContent={(
+        <View
+          style={[styles.leftSwipeItem, {backgroundColor: '#D50000'}]}
+        >
+          <Text>Remove</Text>
+        </View>
+      )}>
+      <TouchableOpacity onPress={() => navigate('EditTask')}>
+        <View style={styles.item}>
+          <Text style={styles.itemName}>{item.key}</Text>
+          <View style={styles.datesItem}>
+            <Text style={styles.previousDate}>Last time: {item.previous}</Text>
+            <Text style={styles.nextDate}>Next time: {item.next}</Text>
+          </View>
+        </View>
+      </TouchableOpacity>
+    </Swipeable>);
+  }
+
   render() {
     const backgroundColor = '#222';
     const appbarElevation = 4;
@@ -45,12 +79,12 @@ export default class TaskList extends React.Component {
       <View style={styles.container}>
         <StatusBar barStyle="light-content"/>
         <FlatList
-          data={dataList()}
-          renderItem={renderItemList}
+          data={this.dataList()}
+          renderItem={(item) => this.renderItemList(item, navigate)}
         />
         <ActionButton
           buttonColor="rgba(63, 81, 181, 1)"
-          onPress={ () => {  navigate('CreateTask') } }
+          onPress={ () => navigate('CreateTask') }
         />
       </View>
     );
@@ -87,5 +121,11 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between'
-  }
+  },
+  leftSwipeItem: {
+    flex: 1,
+    alignItems: 'flex-end',
+    justifyContent: 'center',
+    paddingRight: 20,
+  },
 });

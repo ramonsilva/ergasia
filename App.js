@@ -7,6 +7,7 @@ import { Platform } from 'react-native'
 
 import TaskList from './screens/TaskList';
 import CreateTask from './screens/CreateTask';
+import EditTask from './screens/EditTask';
 
 export default App = StackNavigator(
   {
@@ -15,9 +16,10 @@ export default App = StackNavigator(
       headerMode: 'none',
     },
     CreateTask: { screen: CreateTask },
+    EditTask: { screen: EditTask },
   },
   {
-    initialRouteName: 'CreateTask',
+    initialRouteName: 'TaskList',
     navigationOptions: {
       headerStyle: {
         height: Platform.OS === 'ios' ? 64 : 79,
