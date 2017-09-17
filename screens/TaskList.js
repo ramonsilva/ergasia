@@ -34,7 +34,7 @@ const renderItemList = ({item}) => (
 
 export default class TaskList extends React.Component {
   static navigationOptions = {
-    title: 'Ergasia',
+    title: 'Ergasia X',
   };
   render() {
     const backgroundColor = '#222';

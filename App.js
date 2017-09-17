@@ -17,9 +17,10 @@ export default App = StackNavigator(
     CreateTask: { screen: CreateTask },
   },
   {
+    initialRouteName: 'CreateTask',
     navigationOptions: {
       headerStyle: {
-        height: Platform.OS === 'ios' ? 64 : 71,
+        height: Platform.OS === 'ios' ? 64 : 79,
         backgroundColor: '#FFC107',
         borderBottomColor: 'rgba(0, 0, 0, 0.1)',
         paddingTop: Platform.OS === 'ios' ? 20 : 25,
@@ -27,13 +28,3 @@ export default App = StackNavigator(
     }
   }
 );
-
-class Header extends React.Component {
-  render() {
-    return (
-      <View>
-        Bazinga!
-      </View>
-    );
-  }
-}
