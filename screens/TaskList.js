@@ -44,13 +44,16 @@ export default class TaskList extends React.Component {
     return this.state.data;
   }
 
-  renderItemList = ({item}, navigate) => {
+  deleteItem = (item) => {
+    this.state.data.splice(item, 1);
+    this.setState({data: this.state.data})
+  }
+
+  renderItemList = (Item, navigate) => {
+    const item = Item.item;
     return (
      <Swipeable
-      onLeftActionRelease={() => {
-        this.state.data.splice(2, 1);
-        this.setState({data: this.state.data})
-      }}
+      onLeftActionRelease={() => { this.deleteItem(Item.index)}}
       leftContent={(
         <View
           style={[styles.leftSwipeItem, {backgroundColor: '#D50000'}]}
