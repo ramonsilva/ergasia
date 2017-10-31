@@ -17,8 +17,8 @@ export default class CreateTask extends React.Component {
         title="Done"
         onPress={ () => {
         const { params } = navigation.state;
-        console.log(navigation);
-        if (params && params.component) { params.component.save() } } }
+        console.log(navigation, '------S', navigation.navigate);
+        if (params && params.saveTask) { params.saveTask(navigation.navigate) } } }
       />,
     };
   };
@@ -31,12 +31,13 @@ export default class CreateTask extends React.Component {
   }
 
   componentDidMount () {
-    this.props.navigation.setParams({ component: this })
+    this.props.navigation.setParams({ saveTask: this.save })
   }
 
-  save() {
+  save(navigate) {
+    navigate('CreateTask');
     console.log('save');
-    console.log(this.state);
+    console.log(this);
   }
 
   changeFrequency(itemValue, itemIndex) {

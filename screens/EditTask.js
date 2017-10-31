@@ -17,8 +17,8 @@ export default class EditTask extends React.Component {
         title="Done"
         onPress={ () => {
         const { params } = navigation.state;
-        console.log(navigation);
-        if (params && params.saveTask) { params.saveTask() } } }
+        console.log(navigation, '------S', navigation.navigate);
+        if (params && params.saveTask) { params.saveTask(navigation.navigate) } } }
       />,
     };
   };
@@ -34,7 +34,8 @@ export default class EditTask extends React.Component {
     this.props.navigation.setParams({ saveTask: this.save })
   }
 
-  save() {
+  save(navigate) {
+    navigate('CreateTask');
     console.log('save');
     console.log(this);
   }

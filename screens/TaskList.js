@@ -87,7 +87,9 @@ export default class TaskList extends React.Component {
         />
         <ActionButton
           buttonColor="rgba(63, 81, 181, 1)"
-          onPress={ () => navigate('CreateTask') }
+          onPress={ () => {
+            navigate('CreateTask')
+          } }
         />
       </View>
     );
