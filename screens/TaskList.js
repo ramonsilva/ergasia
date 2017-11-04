@@ -9,11 +9,10 @@ import {
   View,
   TouchableOpacity,
 } from 'react-native';
-import moment from 'moment';
+// import moment from 'moment';
 
-import ActionButton from 'react-native-action-button';
+import ActionButton from 'react-native-action-button'; 
 import Swipeable from 'react-native-swipeable';
-
 
 export default class TaskList extends React.Component {
   static navigationOptions = {
@@ -25,23 +24,29 @@ export default class TaskList extends React.Component {
 
     this.state = {
       swipeable: null,
+      data: [],
+      loading: false,
     };
   }
 
-  dataList = () => {
-    this.state.data = this.state.data || [
-      {key: 'Limpar a pia do banheiro',
-        previous: moment(Date.now()).calendar(),
-        next: moment(Date.now()).calendar()
-      },
-      {key: 'Limpar o armario da cozinha'},
-      {key: 'Lucas'},
-      {key: 'Gabriel'},
-      {key: 'Ramon'},
-    ];
+  componentDidMount = () => {
+    this.getData();
+  };
 
-    console.log(this.state.data);
-    return this.state.data;
+  getData = async () => {
+    try {
+      this.setState({ loading: true });
+      const response = await fetch('http://192.168.0.35:3000/lists');
+      const responseJson = await response.json();
+      const items = responseJson.result.map(list => ({ key: list.title }));
+
+      this.setState({
+        data: items,
+        loading: false,
+      });
+    } catch (err) {
+      console.error(err);
+    }
   }
 
   deleteItem = (item) => {
@@ -82,7 +87,7 @@ export default class TaskList extends React.Component {
       <View style={styles.container}>
         <StatusBar barStyle="light-content"/>
         <FlatList
-          data={this.dataList()}
+          data={this.state.data}
           renderItem={(item) => this.renderItemList(item, navigate)}
         />
         <ActionButton
